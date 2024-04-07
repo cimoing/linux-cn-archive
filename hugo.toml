@@ -1,4 +1,4 @@
-baseURL = 'https://archive-cn.imoing.com/'
+baseURL = 'https://linux-cn.imoing.com/'
 languageCode = 'zh-Hans'
 title = 'Linux.cn Archive'
 theme = "mainroad"
