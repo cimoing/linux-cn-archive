@@ -45,12 +45,20 @@ jobs:
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"          
-      - name: Deploy to BunnyCDN
-        uses: ayeressian/bunnycdn-storage-deploy@v2.2.0
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          source: "public"
-          storageZoneName: "${{ secrets.BUNNY_ZONE }}"
-          storagePassword: "${{ secrets.BUNNY_PASSWORD }}"
-          upload: "true"
-          storageEndpoint: "sg.storage.bunnycdn.com"
+          path: ./public
+   # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      
